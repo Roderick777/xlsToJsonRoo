@@ -47,6 +47,7 @@ export default {
     methods: {
         alElegirArchivo () { this.$refs.fileInput.click() },
         async leerExcelActual(e, hoja){
+            debugger;
             hoja                    = ( hoja.length == 0 )? undefined : hoja;
             let dataExcel           = await Util.leerExcel(e.files, hoja)
             this.hojasExcel         = dataExcel.hojas
@@ -54,7 +55,8 @@ export default {
             this.archivoExcel       = e.files[0]
             this.listaImportacion   = dataExcel.data
             this.$emit('datosProcesados', {
-                datos: dataExcel.data                
+                datos: dataExcel.data,
+                hoja: hoja      
             })
         },
         // async leerExcel(e){
@@ -74,7 +76,8 @@ export default {
             this.archivoExcel       = e.target.files[0]
             this.listaImportacion   = dataExcel.data
             this.$emit('datosProcesados', {
-                datos: dataExcel.data                
+                datos: dataExcel.data,
+                hoja: (hoja == undefined)? dataExcel.hojas[0]: hoja            
             })
         },
         elegirHoja(item) {

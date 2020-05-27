@@ -1,4 +1,5 @@
 $color-primary: #42b983;
+$color-secondary: rgb(243, 135, 48);
 $color-default: #FFFFFF;
 $color-gray: #DDD;
 $default-border-radius: 4px;
@@ -16,6 +17,24 @@ body{
     border-radius: $default-border-radius;
     width: calc(100% - 14px);
     outline-color: $color-primary
+}
+.button{
+    border: none;
+    &.primary{
+        background-color: $color-primary;
+        color: $color-default;
+        &:hover{
+            background-color: rgba($color-primary,.8);
+        }
+    }
+
+    &.secondary{
+        background-color: $color-secondary;
+        color: $color-default;
+        &:hover{
+            background-color: rgba($color-secondary,.8);
+        }
+    }
 }
 .alert{
     background-color: rgba($color-gray, .2);
