@@ -5,7 +5,7 @@ export default {
     leerExcel(files, hoja){
         return new Promise((resolve, reject) => {
             try{
-                let c               = this;
+                // let c               = this;
                 let reader          = new FileReader();
                 // let nombreArchivo   = files[0].name;
                 reader.onload   = (e) => {
