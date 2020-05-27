@@ -19,7 +19,13 @@
               i( uk-icon="info")
               p #[b Puedes hacer click en una hoja para visualizar su contenido en JSON ]
         div( class="uk-width-2-3@m columna__data")
-          pre.uk-margin-top( v-if="dataExcel != null" ) {{ dataExcel | buscador( textoBuscar, campoFiltro)}}
+          div( v-if="dataExcel != null" )
+            div.herramientas_json
+              div.titulo__herramientas Herramientas
+              label.label Tamaño de fuente (píxeles)
+              input.input( type="number" min="5" max="24"  v-model="tamanoFuente") 
+            pre.uk-margin-top( :style="'font-size:'+ tamanoFuente +'px;'") {{ dataExcel | buscador( textoBuscar, campoFiltro)}}
+  
           div( v-else )
             div.alert.primary Aquí podrás visualizar la data en formato JSON una vez importar el excel, por defecto se selecciona la primera hoja del archivo excel, si deseas ver la información de otro hoja, solo has click en los botones de hoja que apareceran en la sección de importacion despues de seleccionar un archivo excel.
 </template>
@@ -39,7 +45,8 @@ export default {
             encabezadosTabla: null,
             cargando        : false,
             textoBuscar     : null,
-            campoFiltro     : null
+            campoFiltro     : null, 
+            tamanoFuente    : 14,
         }
     },
     methods: {
@@ -94,6 +101,22 @@ export default {
         overflow-y: scroll;
         overflow-x: visible;
         z-index: 1;
+    }
+    .herramientas_json{
+      position: fixed;
+      top: 150px;
+      right: 0px;
+      background-color: rgba($color-gray, .4);
+      padding: 0px 10px 10px 10px;
+      font-size: .7rem;
+      .titulo__herramientas{
+        background-color: rgba($color-primary, .8);
+        font-size: .8rem;
+        color: $color-default;
+        width: 150px;
+        text-align: center;
+        font-weight: 900;
+    }
     }
     pre{
       z-index: 1;
