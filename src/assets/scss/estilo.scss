@@ -1,0 +1,54 @@
+$color-primary: #42b983;
+$color-default: #FFFFFF;
+$color-gray: #DDD;
+$default-border-radius: 4px;
+body{
+    font-family: 'Open Sans', sans-serif;
+}
+.label{
+    display: block;
+    font-size: .7rem;
+}
+.input{
+    // display: block;
+    padding: 7px;
+    border: 1px solid $color-gray;
+    border-radius: $default-border-radius;
+    width: calc(100% - 14px);
+    outline-color: $color-primary
+}
+.alert{
+    background-color: rgba($color-gray, .2);
+    padding: 15px;
+    &.primary{
+        color: $color-primary;
+    }
+    &.small{
+        font-size: .7rem;
+
+    }
+    p{
+        margin-bottom: 0px;
+        margin-top: 0px;
+    }
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background-color: rgba($color-gray,.1);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background-color: rgba($color-primary,.8);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba($color-primary,.5);
+}
