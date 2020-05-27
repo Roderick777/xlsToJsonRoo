@@ -1,6 +1,6 @@
 <template lang="pug">
     div
-      div.carga.uk-text-center.uk-padding-small( v-if="cargando") #[span(uk-spinner, style="margin-right: 3px;")] Cargando 
+      //- div.carga.uk-text-center.uk-padding-small( v-if="cargando") #[span(uk-spinner, style="margin-right: 3px;")] Cargando 
       div( uk-grid )
         div( class="uk-width-1-3@m columna__accion")
           div.uk-padding-small
@@ -19,6 +19,7 @@
               i( uk-icon="info")
               p #[b Puedes hacer click en una hoja para visualizar su contenido en JSON ]
         div( class="uk-width-2-3@m columna__data")
+          div(v-if="cargando").cargando
           div.uk-padding-small( v-if="dataExcel != null" )
             h4(v-if="hojaActual != null") Hoja visible: {{ this.hojaActual }}
             div.herramientas_json
@@ -103,6 +104,12 @@ export default {
         // border-radius: $default-border-radius;
         // background-color: $dark-color-accent;
         // color: $default-color;
+    }
+    .cargando{
+      background-color: rgba($color-default,.7);
+      display: flex;
+      height: 100%;
+      width: 100%;
     }
     .columna__accion{
       height: calc(100vh - 84px);
