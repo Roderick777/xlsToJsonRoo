@@ -39,6 +39,7 @@ body{
 .alert{
     background-color: rgba($color-gray, .2);
     padding: 15px;
+    font-size: .9rem;
     &.primary{
         color: $color-primary;
     }

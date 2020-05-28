@@ -4,7 +4,8 @@
       div( uk-grid )
         div( class="uk-width-1-3@m columna__accion")
           div.uk-padding-small
-            h4( style="margin-bottom: 5px;" ) Filtros
+            h4( style="margin-bottom: 5px; position: relative;" ) Filtros
+              i( uk-icon="question" class="accion__titulo" @click="ayuda()" )
             label.label Nombre del campo a filtrar
             input.input( type="text" v-model="campoFiltro") 
             label.label Texto a buscar
@@ -19,7 +20,7 @@
               i( uk-icon="info")
               p #[b Puedes hacer click en una hoja para visualizar su contenido en JSON ]
         div( class="uk-width-2-3@m columna__data")
-          div(v-if="cargando").cargando
+          div(v-if="cargando").cargando Cargando
           div.uk-padding-small( v-if="dataExcel != null" )
             h4(v-if="hojaActual != null") Hoja visible: {{ this.hojaActual }}
             div.herramientas_json
@@ -29,19 +30,29 @@
               button.button.secondary( @click="cambiarVista('html')" style="margin-right: 2px") Vista Html
               button.button.secondary( @click="cambiarVista('json')") Vista json
             pre.uk-margin-top( v-if="vista == 'json'" :style="'font-size:'+ tamanoFuente +'px;'") {{ dataExcel | buscador( textoBuscar, campoFiltro)}}
-            table( v-if="vista == 'html' && encabezadosTabla != null" :style="'font-size:'+ tamanoFuente +'px;'")
+            table.tabla__excel( cellspacing="0" v-if="vista == 'html' && encabezadosTabla != null" :style="'font-size:'+ tamanoFuente +'px;'")
               tr
                 th( v-for="(encabezado, i ) in encabezadosTabla", :key="'encabezado'+ i") {{ encabezado }}
-              tr( v-for="(fila, i) in dataExcel", :key="'fila'+i")
+              tr( v-for="(fila, i) in buscar(dataExcel, textoBuscar, campoFiltro)", :key="'fila'+i")
                 td(v-for="(celda, j) in valoresHojaFila(fila, i)") {{ celda }}
           div( v-else )
             div.alert.primary Aquí podrás visualizar la data en formato JSON una vez importar el excel, por defecto se selecciona la primera hoja del archivo excel, si deseas ver la información de otro hoja, solo has click en los botones de hoja que apareceran en la sección de importacion despues de seleccionar un archivo excel.
+      div#modal-ayuda( uk-modal )
+        div.uk-modal-dialog.uk-modal-body
+          
+          h2.uk-modal-title #[span Ayuda] #[button.uk-modal-close( uk-icon="close")]
+          div 
+            Ayuda
+            
 </template>
 
 <script>
+import UIkit from 'uikit'
 import ImportarExcel from '../components/ImportarExcel';
+import Ayuda from '../components/Ayuda';
+
 export default {
-    components: { ImportarExcel },
+    components: { ImportarExcel, Ayuda },
     data() {
       return {
         rutaImportacion   : '',
@@ -66,7 +77,10 @@ export default {
         this.hojaActual = evento.hoja
         setTimeout( () => {
             this.encabezadosHoja(evento.datos)
-        }, 1000)
+            setTimeout(() => {
+              this.cargando = false
+            },1000)
+        }, 500)
       },
       encabezadosHoja(dataExcel) {
         this.encabezadosTabla = Object.keys(dataExcel[0])
@@ -78,9 +92,23 @@ export default {
       },
       elegirHoja(evento) { //EVENTO QUE  SE EJECUTA AL HACER CLICK SOBRE UN ELEMENTO "Hoja" DEL COMPONENTE "ImportarExcel"
         this.nombreHoja = evento
+        this.cargando = true;
       },
       cambiarVista(vista){
         this.vista = vista
+      },
+      ayuda(){
+        UIkit.modal('#modal-ayuda').show()
+      },
+      buscar(valor, textoBuscar, campoBuscar){
+        if(textoBuscar != null && textoBuscar.length > 1 && (campoBuscar != null || campoBuscar.length > 0) ) {
+          let valores = valor.filter((elemento) => {
+            return (elemento[campoBuscar].toLowerCase().indexOf(textoBuscar.toLowerCase()) > -1);
+          })
+          return valores;
+        } else {
+          return valor
+        }
       }
     },
     filters: {
@@ -107,9 +135,26 @@ export default {
     }
     .cargando{
       background-color: rgba($color-default,.7);
-      display: flex;
       height: 100%;
       width: 100%;
+      position: fixed;
+      top: 0px;
+      left: 0px;
+            
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+    }
+    .accion__titulo{
+      color: $color-primary;
+      position: absolute;
+      cursor: pointer;
+      right: 0px;
+      top:5px;
+      &:hover{
+        color: rgba($color-primary,.7);
+      }
     }
     .columna__accion{
       height: calc(100vh - 84px);
@@ -139,6 +184,25 @@ export default {
       }
       .button{
         width: calc(50% -4px);
+      }
+    }
+    .tabla__excel{
+
+
+      tr{
+        th{
+          background: rgba($color-default,1);
+          border-bottom: 3px solid rgba($color-secondary, .8);
+
+          td{
+          }
+        }
+        &:nth-child(odd){
+          background-color: rgba($color-gray, .2);
+        }
+        td{
+          padding: 0px 5px;
+        }
       }
     }
     pre{
