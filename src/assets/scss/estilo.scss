@@ -16,7 +16,8 @@ body{
     border: 1px solid $color-gray;
     border-radius: $default-border-radius;
     width: calc(100% - 14px);
-    outline-color: $color-primary
+    outline-color: $color-primary;
+    outline-radius: $default-border-radius; 
 }
 .button{
     border: none;
