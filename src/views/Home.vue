@@ -115,6 +115,7 @@ export default {
       buscador(valor, textoBuscar, campoBuscar){
         if(textoBuscar != null && textoBuscar.length > 1 && (campoBuscar != null || campoBuscar.length > 0) ) {
           let valores = valor.filter((elemento) => {
+            elemento = elemento +''
             return (elemento[campoBuscar].toLowerCase().indexOf(textoBuscar.toLowerCase()) > -1);
           })
           return valores;
