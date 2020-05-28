@@ -111,6 +111,7 @@ export default {
         }
       }
     },
+    
     filters: {
       buscador(valor, textoBuscar, campoBuscar){
         if(textoBuscar != null && textoBuscar.length > 1 && (campoBuscar != null || campoBuscar.length > 0) ) {
